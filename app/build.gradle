@@ -1,0 +1,154 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.0"
+
+    defaultConfig {
+        applicationId "com.sample.todo"
+        minSdkVersion 23
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            renderscriptOptimLevel 3
+            multiDexEnabled true
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def formattedDate = new Date().format('yyyy-MM-dd_HH-mm')
+                    outputFileName = "Todo-${variant.name}-${variant.versionName}-" + formattedDate + ".apk"
+                }
+            }
+        }
+        debug {
+            minifyEnabled false
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def formattedDate = new Date().format('yyyy-MM-dd_HH-mm')
+                    outputFileName = "Todo-${variant.name}-${variant.versionName}-" + formattedDate + ".apk"
+                }
+            }
+        }
+    }
+
+    flavorDimensions "environment"
+    productFlavors {
+        qa {
+            dimension "TODO QA"
+            applicationIdSuffix ".QA"
+            buildConfigField 'String', 'BASE_URL', '"https://reqres.in/"'
+            buildConfigField 'boolean', 'IS_LOG', 'true'
+            buildConfigField 'Boolean', 'PROD', 'false'
+            buildConfigField 'long', 'CONNECTION_TIMEOUT', '1000L'
+            buildConfigField 'long', 'READ_TIMEOUT', '600L'
+            buildConfigField 'long', 'WRITE_TIMEOUT', '600L'
+            ext {
+                signingConfig = [
+                        qa: null
+                ]
+            }
+        }
+        prod {
+            dimension "TODO"
+            applicationIdSuffix ".PROD"
+            buildConfigField 'String', 'BASE_URL', '"http://reqres.in/"'
+            buildConfigField 'boolean', 'IS_LOG', 'false'
+            buildConfigField 'Boolean', 'PROD', 'true'
+            buildConfigField 'long', 'CONNECTION_TIMEOUT', '1000L'
+            buildConfigField 'long', 'READ_TIMEOUT', '600L'
+            buildConfigField 'long', 'WRITE_TIMEOUT', '600L'
+            ext {
+                signingConfig = [
+                        production: null
+                ]
+            }
+        }
+        production {
+            dimension "environment"
+            resValue 'string', 'app_name', 'Todo'
+            multiDexEnabled true
+        }
+        qa {
+            dimension "environment"
+            applicationIdSuffix ".qa"
+            versionNameSuffix "-qa"
+            resValue 'string', 'app_name', 'Todo QA'
+        }
+    }
+
+    buildFeatures {
+        dataBinding = true
+        // for view binding:
+        viewBinding = true
+    }
+
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    // material design
+    implementation 'com.google.android.material:material:1.3.0'
+    // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0-alpha01'
+    //Kotlin Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
+    //Kodein Dependency Injection
+    implementation "org.kodein.di:kodein-di-generic-jvm:6.5.1"
+    implementation "org.kodein.di:kodein-di-framework-android-x:6.5.1"
+    implementation "org.kodein.di:kodein-di-framework-android-core:6.5.1"
+    //Android Room
+    implementation "androidx.room:room-runtime:2.4.0-alpha02"
+    implementation "androidx.room:room-ktx:2.4.0-alpha02"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    kapt "androidx.room:room-compiler:2.4.0-alpha02"
+    //stetho
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+    //timber
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+    //gson
+    implementation 'com.google.code.gson:gson:2.8.6'
+    //Retrofit Library
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.6.2'
+    //OkHttp Library
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:$okhttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp"
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-collections-immutable:0.1'
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.11.0"
+
+    implementation "androidx.navigation:navigation-fragment-ktx:2.3.5"
+    implementation "androidx.navigation:navigation-ui-ktx:2.3.5"
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+}

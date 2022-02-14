@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/todoLoginFragment">
+
+    <fragment
+        android:id="@+id/homeTodoListFragment"
+        android:name="com.sample.todo.view.fragment.HomeTodoListFragment">
+
+        <action
+            android:id="@+id/action_goto_add_new_task"
+            app:destination="@id/addNewTodofragment" />
+
+        <action
+            android:id="@+id/action_goto_update_task"
+            app:destination="@id/updateTodoFragment" />
+
+        <argument
+            android:name="currentTodo"
+            app:argType="string" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/addNewTodofragment"
+        android:name="com.sample.todo.view.fragment.AddNewTodoFragment">
+
+        <action
+            android:id="@+id/action_goto_list_todo"
+            app:destination="@id/homeTodoListFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/updateTodoFragment"
+        android:name="com.sample.todo.view.fragment.UpdateTodoFragment">
+
+        <action
+            android:id="@+id/action_goto_list_todo"
+            app:destination="@id/homeTodoListFragment" />
+
+        <argument
+            android:name="currentTodo"
+            app:argType="string" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/todoLoginFragment"
+        android:name="com.sample.todo.view.fragment.TodoLoginFragment">
+
+        <action
+            android:id="@+id/action_goto_list_todo"
+            app:destination="@id/homeTodoListFragment" />
+
+    </fragment>
+
+</navigation>

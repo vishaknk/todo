@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+
+    <color name="auth_success">#417800</color>
+    <color name="auth_error">#FA1302</color>
+
+    <color name="primary">#303f9f</color>
+    <color name="p_dark">#001970</color>
+
+    <color name="hint_color">#454545</color>
+
+</resources>
